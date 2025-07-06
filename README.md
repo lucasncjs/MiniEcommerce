@@ -24,13 +24,13 @@ Este proyecto es una aplicación web de comercio electrónico desarrollada con *
 ## 🛠️ Instalación y configuración
 
 1. Clonar el repositorio:
-git clone https://github.com/lucasncjs/ecommerce-aspnetcore.git
-2. Crear la base de datos en SQL Server y actualizar el `appsettings.json` con tu cadena de conexión.
-3. Ejecutar las migraciones:
+git clone https://github.com/lucasncjs/MiniEcommerce
+3. Crear la base de datos en SQL Server y actualizar el `appsettings.json` con tu cadena de conexión.
+4. Ejecutar las migraciones:
 dotnet ef database update
-4. Ejecutar la aplicación:
+5. Ejecutar la aplicación:
 dotnet run
-5. Acceder desde tu navegador a `https://localhost:5001`
+6. Acceder desde tu navegador a `https://localhost:5001`
 
 ## 📁 Estructura del proyecto
 
