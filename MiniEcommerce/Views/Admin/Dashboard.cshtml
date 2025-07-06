@@ -1,0 +1,81 @@
+﻿@using System.Globalization
+@using System.Text.Json
+@{
+    ViewData["Title"] = "Dashboard de administración";
+    var culture = new CultureInfo("en-US");
+    var m = ViewBag.Metricas;
+}
+
+<h1 class="mb-4">📊 Dashboard de administración</h1>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-3">
+        <div class="card bg-success text-white text-center p-3 shadow-sm">
+            <h5>Total de pedidos</h5>
+            <h2>@m.TotalPedidos</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-primary text-white text-center p-3 shadow-sm">
+            <h5>Total de usuarios</h5>
+            <h2>@m.TotalUsuarios</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark text-center p-3 shadow-sm">
+            <h5>Ingresos totales</h5>
+            <h2>@(((decimal)m.IngresosTotales).ToString("C", culture))</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-dark text-white text-center p-3 shadow-sm">
+            <h5>Producto más vendido</h5>
+            <h6 class="mb-0">@m.ProductoTop?.Nombre ?? "–"</h6>
+            <p class="mb-0">Unidades: @m.ProductoTop?.TotalVendido ?? 0</p>
+        </div>
+    </div>
+</div>
+
+<h4>📦 Productos con bajo stock (&lt; 5 unidades)</h4>
+@if (((List<MiniEcommerce.Models.Product>)m.BajoStock).Any())
+{
+    <ul class="list-group mb-5">
+        @foreach (var prod in (List<MiniEcommerce.Models.Product>)m.BajoStock)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                @prod.Name
+                <span class="badge bg-danger rounded-pill">@prod.Stock unidades</span>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <div class="alert alert-success">No hay productos con bajo stock 🎉</div>
+}
+<h4 class="mt-5">📊 Ingresos por mes</h4>
+<canvas id="ventasPorMesChart" height="100"></canvas>
+
+<script>
+    const ctx = document.getElementById('ventasPorMesChart').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: @Html.Raw(Json.Serialize(ViewBag.VentasPorMesLabels)),
+            datasets: [{
+                label: 'Ingresos (USD)',
+                data: @Html.Raw(Json.Serialize(ViewBag.VentasPorMesData)),
+                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>

@@ -1,0 +1,23 @@
+﻿@model MiniEcommerce.Models.Category
+
+@{
+    ViewData["Title"] = "Eliminar categoría";
+}
+
+<h1 class="mb-4 text-danger">🗑️ Eliminar categoría</h1>
+
+<div class="alert alert-warning">
+    <strong>¿Estás seguro que querés eliminar esta categoría?</strong><br />
+    Esta acción no se puede deshacer.
+</div>
+
+<div class="mb-4">
+    <p><strong>Nombre:</strong> @Model.Name</p>
+</div>
+
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

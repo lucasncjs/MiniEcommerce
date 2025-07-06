@@ -1,0 +1,82 @@
+﻿@model IEnumerable<MiniEcommerce.Models.CartItem>
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "Mi carrito";
+    decimal total = 0;
+    var culture = new CultureInfo("en-US");
+}
+
+<h1 class="mb-4">🛒 Carrito de compras</h1>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Tu carrito está vacío.</div>
+}
+else
+{
+    <form asp-action="Update" method="post">
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var subtotal = item.Product.Price * item.Quantity;
+                    total += subtotal;
+                    <tr>
+                        <td>@item.Product.Name</td>
+                        <td>@item.Product.Price.ToString("C", culture)</td>
+                        <td style="width:120px;">
+                            <input type="hidden" name="items[@item.Id].CartItemId" value="@item.Id" />
+                            <input type="number"
+                                   name="items[@item.Id].Quantity"
+                                   value="@item.Quantity"
+                                   min="1"
+                                   max="@item.Product.Stock"
+                                   step="1"
+                                   class="form-control form-control-sm" />
+                        </td>
+                        <td>@subtotal.ToString("C", culture)</td>
+                        <td>
+                            <form asp-action="Remove" method="post">
+                                <input type="hidden" name="itemId" value="@item.Id" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-end fw-bold">Total:</td>
+                    <td colspan="2" class="fw-bold">@total.ToString("C", culture)</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">Actualizar cantidades</button>
+        </div>
+    </form>
+
+    <form asp-action="ConfirmarCompra" method="post" class="mt-2">
+        <button type="submit" class="btn btn-success">Confirmar compra</button>
+    </form>
+}

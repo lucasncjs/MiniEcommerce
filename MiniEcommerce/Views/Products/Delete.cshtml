@@ -1,0 +1,26 @@
+﻿@model MiniEcommerce.Models.Product
+
+@{
+    ViewData["Title"] = "Eliminar producto";
+}
+
+<h1 class="text-danger mb-4">¿Estás seguro que querés eliminar este producto?</h1>
+<hr />
+
+<div class="card border-danger shadow-sm" style="max-width: 600px;">
+    <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Name" style="object-fit: cover; height: 300px;" />
+    <div class="card-body">
+        <h5 class="card-title">@Model.Name</h5>
+        <p>@Model.Description</p>
+        <p><strong>Precio:</strong> @Model.Price.ToString("C")</p>
+        <p><strong>Stock:</strong> @Model.Stock</p>
+    </div>
+    <div class="card-footer">
+        <form asp-action="Delete" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>

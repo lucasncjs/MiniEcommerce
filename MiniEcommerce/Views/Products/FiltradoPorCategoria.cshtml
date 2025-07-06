@@ -1,0 +1,54 @@
+﻿@model MiniEcommerce.Models.Category
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "Categoría: " + Model.Name;
+    var culture = new CultureInfo("en-US");
+}
+
+<h1 class="mb-4">🗂️ Categoría: @Model.Name</h1>
+
+@if (!Model.Products.Any())
+{
+    <div class="alert alert-info">No hay productos en esta categoría.</div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var item in Model.Products)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name" style="object-fit: cover; height: 200px;" />
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text text-truncate">@item.Description</p>
+                        <p class="fw-bold text-success">@item.Price.ToString("C", culture)</p>
+                        <p class="text-muted">Stock: @item.Stock</p>
+                    </div>
+                    <div class="card-footer bg-white border-top-0">
+                        <div class="d-grid gap-2">
+                            <a class="btn btn-outline-info btn-sm" asp-action="Details" asp-route-id="@item.Id">Ver más</a>
+
+                            @if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
+                            {
+                                <form asp-controller="Cart" asp-action="Add" method="post">
+                                    <input type="hidden" name="productId" value="@item.Id" />
+                                    <button type="submit" class="btn btn-outline-success btn-sm w-100">Agregar al carrito</button>
+                                </form>
+                            }
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <div class="d-flex justify-content-between mt-2">
+                                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

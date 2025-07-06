@@ -1,0 +1,41 @@
+﻿@model MiniEcommerce.Models.Order
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "Gracias por tu compra";
+    var culture = new CultureInfo("en-US");
+}
+
+<h1 class="mt-4">✅ ¡Gracias por tu compra!</h1>
+<p>Tu pedido fue registrado el <strong>@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</strong>.</p>
+
+<table class="table table-bordered table-striped mt-3">
+    <thead class="table-light">
+        <tr>
+            <th>Producto</th>
+            <th>Precio unitario</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            var subtotal = item.Quantity * item.UnitPrice;
+            <tr>
+                <td>@item.Product.Name</td>
+                <td>@item.UnitPrice.ToString("C", culture)</td>
+                <td>@item.Quantity</td>
+                <td>@subtotal.ToString("C", culture)</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="text-end fw-bold">Total:</td>
+            <td class="fw-bold">@Model.TotalAmount.ToString("C", culture)</td>
+        </tr>
+    </tfoot>
+</table>
+
+<a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3">Volver a la tienda</a>

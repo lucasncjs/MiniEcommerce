@@ -1,0 +1,31 @@
+﻿@model MiniEcommerce.Models.Product
+@using System.Globalization
+@{
+    ViewData["Title"] = "Detalles del producto";
+    var culture = new CultureInfo("en-US");
+}
+
+<h1 class="mb-4">📦 @Model.Name</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded shadow" style="object-fit: cover; height: 300px;" />
+    </div>
+    <div class="col-md-6">
+        <p><strong>Descripción:</strong> @Model.Description</p>
+        <p><strong>Precio:</strong> <span class="text-success">@Model.Price.ToString("C", culture)</span></p>
+        <p><strong>Stock disponible:</strong> @Model.Stock</p>
+        <p><strong>Categoría:</strong> @Model.Category?.Name</p>
+
+        @if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
+        {
+            <form asp-controller="Cart" asp-action="Add" method="post">
+                <input type="hidden" name="productId" value="@Model.Id" />
+                <button type="submit" class="btn btn-outline-success">Agregar al carrito</button>
+            </form>
+        }
+
+        <a asp-action="Index" class="btn btn-secondary mt-3">⬅️ Volver al catálogo</a>
+    </div>
+</div>

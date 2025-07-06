@@ -1,0 +1,24 @@
+﻿@model MiniEcommerce.Models.Category
+
+@{
+    ViewData["Title"] = "Nueva categoría";
+}
+
+<h1 class="mb-4">➕ Nueva categoría</h1>
+
+<form asp-action="Create" method="post" class="w-50">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label fw-bold">Nombre</label>
+        <input asp-for="Name" class="form-control" placeholder="Ej: Tecnología, Libros..." />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

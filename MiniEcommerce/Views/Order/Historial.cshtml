@@ -1,0 +1,49 @@
+﻿@model IEnumerable<MiniEcommerce.Models.Order>
+@using System.Globalization
+@{
+    ViewData["Title"] = "Historial de compras";
+    var culture = new CultureInfo("en-US");
+}
+
+<h1 class="mb-4">🧾 Historial de compras</h1>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Todavía no hiciste ninguna compra.</div>
+}
+else
+{
+    foreach (var pedido in Model)
+    {
+        <div class="card mb-3 shadow-sm">
+            <div class="card-header">
+                <strong>Pedido realizado el:</strong> @pedido.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+                <span class="float-end fw-bold">Total: @pedido.TotalAmount.ToString("C", culture)</span>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in pedido.Items)
+                        {
+                            var subtotal = item.UnitPrice * item.Quantity;
+                            <tr>
+                                <td>@item.Product.Name</td>
+                                <td>@item.UnitPrice.ToString("C", culture)</td>
+                                <td>@item.Quantity</td>
+                                <td>@subtotal.ToString("C", culture)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+}

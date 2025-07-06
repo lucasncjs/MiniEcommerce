@@ -1,0 +1,54 @@
+﻿
+@model IEnumerable<MiniEcommerce.Models.Category>
+@{
+    ViewData["Title"] = "Administrar categorías";
+}
+@if (TempData["ErrorCategoria"] != null)
+{
+    <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <i class="bi bi-x-circle-fill me-2"></i>
+        <span>@TempData["ErrorCategoria"]</span>
+    </div>
+}
+
+@if (TempData["SuccessCategoria"] != null)
+{
+    <div class="alert alert-success d-flex align-items-center" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <span>@TempData["SuccessCategoria"]</span>
+    </div>
+}
+
+<h1 class="mb-4">🗂️ Categorías</h1>
+<!-- resto del contenido -->
+<h1 class="mb-4">🗂️ Categorías</h1>
+
+<a class="btn btn-success mb-3" asp-action="Create">➕ Nueva categoría</a>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No hay categorías registradas.</div>
+}
+else
+{
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Nombre</th>
+                <th style="width: 180px;" class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cat in Model)
+            {
+                <tr>
+                    <td>@cat.Name</td>
+                    <td class="text-center">
+                        <a class="btn btn-sm btn-primary me-2" asp-action="Edit" asp-route-id="@cat.Id">Editar</a>
+                        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@cat.Id">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
