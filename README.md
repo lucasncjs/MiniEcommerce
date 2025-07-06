@@ -40,6 +40,16 @@ dotnet run
 - `Services/` - Lógica de negocio (stock, carrito, órdenes)
 - `wwwroot/` - Archivos estáticos (CSS, JS, imágenes)
 
+## 👤 Usuario de demostración
+
+Para acceder a la funcionalidad de administrador, podés usar el siguiente usuario de prueba:
+
+- **Usuario:** admin@ecommerce.com  
+- **Contraseña:** Admin123!
+
+Este usuario tiene rol de administrador y acceso al panel de métricas, gestión de productos y usuarios.
+
+
 ## 📝 Estado del proyecto
 
 Actualmente en desarrollo activo. Próximas mejoras:
