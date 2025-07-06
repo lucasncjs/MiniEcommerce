@@ -53,9 +53,7 @@ Este usuario tiene rol de administrador y acceso al panel de métricas, gestión
 ## 📝 Estado del proyecto
 
 Actualmente en desarrollo activo. Próximas mejoras:
-- Confirmación de pago simulada
 - Mejora en la experiencia de usuario móvil
-- Validaciones dinámicas con JavaScript
 
 ---
 
